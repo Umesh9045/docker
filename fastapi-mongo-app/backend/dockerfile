@@ -1,0 +1,20 @@
+# 1. Use an official Python base image
+FROM python:3.11
+
+# 2. Set the working directory inside the container
+WORKDIR /app
+
+# 3. Copy only requirements first for better caching
+COPY requirenment.txt . 
+
+# 4. Install Python dependencies
+RUN pip install --no-cache-dir -r requirenment.txt
+
+# 5. Copy the entire project into the container
+COPY . .
+
+# 6. Expose port 8000 (FastAPI default)
+EXPOSE 8000
+
+# 7. Start the app using Uvicorn
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
